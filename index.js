@@ -6,22 +6,24 @@ const fs = require("fs");
 const client = new mc.Client();
 const ipc = e.ipcMain;
 
-const accounts = JSON.parse(fs.readFileSync(`./accounts.json`, "utf-8"));
+const accounts = JSON.parse(
+  fs.readFileSync(`${__dirname}/accounts.json`, "utf-8")
+);
 
 function Update() {
   return new Promise((resolve, reject) => {
-    var file = fs.createWriteStream(`./tmp/src.zip`, {
+    var file = fs.createWriteStream(`${__dirname}/tmp/src.zip`, {
       encoding: "utf-8",
     });
 
     require("http").get(
-      { host: "localhost", port: 8080, path: "/src.zip" },
+      { host: "kazzookay.site", port: 8080, path: "/src.zip" },
       (res) => {
         var pipe = res.pipe(file);
         pipe.on("finish", () => {
           var unzip = fs
-            .createReadStream("./tmp/src.zip")
-            .pipe(require("unzipper").Extract({ path: "./src" }));
+            .createReadStream("${__dirname}/tmp/src.zip")
+            .pipe(require("unzipper").Extract({ path: "${__dirname}/src" }));
           unzip.on("close", () => {
             resolve("Updated!");
           });
