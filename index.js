@@ -12,7 +12,7 @@ const accounts = JSON.parse(
 
 function Update() {
   return new Promise((resolve, reject) => {
-    var file = fs.createWriteStream(`${__dirname}/tmp/src.zip`, {
+    var file = fs.createWriteStream(`resources/app/tmp/src.zip`, {
       encoding: "utf-8",
     });
 
@@ -21,9 +21,11 @@ function Update() {
       (res) => {
         var pipe = res.pipe(file);
         pipe.on("finish", () => {
-          var unzip = fs
-            .createReadStream("${__dirname}/tmp/src.zip")
-            .pipe(require("unzipper").Extract({ path: "${__dirname}/src" }));
+          var unzip = fs.createReadStream("resources/app/tmp/src.zip").pipe(
+            require("unzipper").Extract({
+              path: "resources/app/resources/appsrc",
+            })
+          );
           unzip.on("close", () => {
             resolve("Updated!");
           });

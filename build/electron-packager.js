@@ -1,7 +1,7 @@
 require("electron-packager")({
   dir: `${__dirname}/../`,
   overwrite: true,
-  asar: true,
+  asar: false,
   icon: `${__dirname}/../assets/icon.ico`,
 })
   .then((success) => {
